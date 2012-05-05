@@ -1,9 +1,13 @@
 package com.revolugame.hxSpriter;
 
-import flash.display.BitmapData;
-import flash.geom.ColorTransform;
-import flash.geom.Matrix;
-import flash.geom.Point;
+import nme.display.BitmapData;
+import nme.display.Sprite;
+import nme.display.BitmapInt32;
+
+import nme.geom.ColorTransform;
+import nme.geom.Matrix;
+import nme.geom.Point;
+import nme.display.Tilesheet;
 
 /**
  * ...
@@ -11,16 +15,11 @@ import flash.geom.Point;
  */
 class BlittingRenderer 
 {
-	public var buffer 		: BitmapData;
-	var _matrix 			: Matrix;
-	var _colorTransform 	: ColorTransform;
-	var _point 				: Point;
+	public var buffer 	: BitmapData;
 	
 	public function new () 
 	{
-		_matrix = new Matrix();
-		_colorTransform = new ColorTransform();
-		_point = new Point();
+		
 	}
 	
 	public function updateFrame(frame: DataFrame, smooth: Bool):Void
@@ -30,7 +29,11 @@ class BlittingRenderer
 		var offsetX : Float = frame.x;
 		var offsetY : Float = frame.y;
 		
+		//#if flash
 		buffer = new BitmapData( Std.int(frame.width - offsetX), Std.int(frame.height - offsetY), true, 0);
+		#if (cpp || neko)
+		canvas = new Sprite();
+		#end
 		
 		var x : Float = 0; 
 		var y : Float = 0; 
@@ -40,46 +43,56 @@ class BlittingRenderer
 		var color : Int = 0;
 		var img : BitmapData;
 		
+		var point : Point = new Point();
+		var matrix : Matrix = new Matrix();
+		
 		var sprite : DataFrameSprite;
 		for(sprite in sprites)
 		{
-			img = nme.Assets.getBitmapData(sprite.image);
+			img = nme.Assets.getBitmapData( 'sprites/' + sprite.image );
 			
 			x = sprite.x - offsetX;
 			y = sprite.y - offsetY;
 				
-			color = sprite.color; // TODO NME
-			_colorTransform.redMultiplier = (color >> 16 & 0xFF) / 255;
-			_colorTransform.blueMultiplier = (color >> 8 & 0xFF) / 255;
-			_colorTransform.greenMultiplier = (color & 0xFF) / 255;
-			_colorTransform.alphaMultiplier = sprite.opacity;
+			color = sprite.color;
+			
+//			#if flash
+			var colorTransform : ColorTransform = new ColorTransform();
+			colorTransform.redMultiplier = (color >> 16 & 0xFF) / 255;
+			colorTransform.blueMultiplier = (color >> 8 & 0xFF) / 255;
+			colorTransform.greenMultiplier = (color & 0xFF) / 255;
+			colorTransform.alphaMultiplier = sprite.opacity;
+//			#end
 			
 			angle = -sprite.angle;
-				
+			
 			scaleX = sprite.width / img.width;
 			scaleY = sprite.height / img.height;
 				
 			if (sprite.xflip) scaleX = -scaleX;
 			if (sprite.yflip) scaleY = -scaleY;
 				
-			if (sprite.color != 0xFFFFFF || _colorTransform.alphaMultiplier != 1 || angle != 0 || scaleX != 1 || scaleY != 1)
+			if (sprite.color != 0xFFFFFF || sprite.opacity != 1 || angle != 0 || scaleX != 1 || scaleY != 1)
 			{
-				_matrix.b = _matrix.c = 0;
-				_matrix.a = scaleX;
-				_matrix.d = scaleY;
-				if (angle != 0) _matrix.rotate(angle * 0.017453292519943295);
-				_matrix.tx = x;
-				_matrix.ty = y;
-				buffer.draw(img, _matrix, _colorTransform, null, null, smooth);
+				matrix.b = matrix.c = 0;
+				matrix.a = scaleX;
+				matrix.d = scaleY;
+			
+				if (angle != 0) 
+					matrix.rotate(angle * 0.017453292519943295);
+					
+				matrix.tx = x;
+				matrix.ty = y;
+				
+				buffer.draw(img, matrix, colorTransform, null, null, smooth);
 			}
 			else
 			{
-				_point.x = x;
-				_point.y = y;
-					
-				buffer.copyPixels(img, img.rect, _point, null, null, true);
+				point.x = x;
+				point.y = y;
+				buffer.copyPixels(img, img.rect, point, null, null, true);
 			}
 		}
 	}
 
-}
+} 

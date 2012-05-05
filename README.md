@@ -16,10 +16,10 @@ You need NME to use this library.
 Getting Started Guide
 ---------------------
 
-In your NME path file, you need to import all the data you need. All Spriter's ressources must be in the sprites directory.
+In your NME file, all Spriter's ressources must be in the sprites directory.
 
 ```bash
-<assets path="assets/sprites" rename="sprites" />
+<assets path="path/to/the/sprites/directory" rename="sprites" />
 ```
 
 Flixel

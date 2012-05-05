@@ -4,33 +4,32 @@ import flash.geom.Point;
 import org.flixel.FlxCamera;
 import org.flixel.FlxG;
 import org.flixel.FlxObject;
+import org.flixel.FlxSprite;
+
+import org.flixel.tileSheetManager.TileSheetManager;
+
+import nme.display.Tilesheet;
+
+import flash.geom.Matrix;
+import flash.display.BitmapData;
 
 /**
  * Flixel implementation of Spriter
  * @author Adrien Fischer
  */
-class FlxSpriter extends FlxObject
+class FlxSpriter extends FlxSprite
 {
 	var _character : DataSpriterCharacter;
-	
-	/**
-	 * If the animation images should be drawn transformed with pixel smoothing.
-	 * This will affect drawing performance, but look less pixelly.
-	 */
-	public var antialiasing(default, setAntialiasing) : Bool;
 	
 	var _propertiesChanged : Bool;
 		
 	var _blittingRenderer : BlittingRenderer;
-	var _offsetX:Float;
-	var _offsetY:Float;
 	
-	#if flash
-	var _flashPoint : Point;
-	#end
+	var _offsetX : Float;
+	var _offsetY : Float;
 	
 	/**
-	 * @param pData : nom du fichier XML
+	 * @param pData : XML file name
 	 */
 	public function new(pData: String, ?pX: Float = 0, ?pY: Float = 0)
 	{
@@ -38,10 +37,6 @@ class FlxSpriter extends FlxObject
 		
 		antialiasing = true;
 		_propertiesChanged = false;
-		
-		#if flash
-		_flashPoint = new Point();
-		#end
 		
 		_character = new DataSpriterCharacter( pData, onCharacterChangeFrame);
 		_blittingRenderer = new BlittingRenderer();
@@ -51,7 +46,7 @@ class FlxSpriter extends FlxObject
 	 * Updates the animation.
 	 */
 	public override function update():Void 
-	{
+	{	
 		super.update();
 		
 		_character.update(FlxG.elapsed);
@@ -91,22 +86,34 @@ class FlxSpriter extends FlxObject
 		var camera:FlxCamera;
 		var i : Int = 0;
 		var l : Int = cameras.length;
+		
+		#if (cpp || neko)
+		var camID:Int;
+		#end
+		
 		while(i < l)
 		{
 			camera = cameras[i++];
+			#if (cpp || neko)
+			camID = camera.ID;
+			#end
+			
 			if(!onScreen(camera))
 				continue;
 				
-			_point.x = _offsetX + x - Std.int(camera.scroll.x * scrollFactor.x);
-			_point.y = _offsetY + y - Std.int(camera.scroll.y * scrollFactor.y);
+			_point.x = _offsetX + x - Math.floor(camera.scroll.x * scrollFactor.x);
+			_point.y = _offsetY + y - Math.floor(camera.scroll.y * scrollFactor.y);
+			
+			#if flash
 			_point.x += (_point.x > 0) ? 0.0000001 : -0.0000001;
 			_point.y += (_point.y > 0) ? 0.0000001 : -0.0000001;
+			#end
 			
 			#if flash
 			_flashPoint.x = _point.x;
 			_flashPoint.y = _point.y;
 			camera.buffer.copyPixels(_blittingRenderer.buffer, _blittingRenderer.buffer.rect, _flashPoint, null, null, true);
-			#else 
+			#elseif (cpp || neko)
 			
 			#end
 				
@@ -125,12 +132,5 @@ class FlxSpriter extends FlxObject
 	{
 		_character.play(pName, pReset, pFrame);
 	}
-			
-	public function setAntialiasing(value:Bool):Bool
-	{
-		antialiasing = value;
-		_propertiesChanged = true;
-		return value;
-	}
-
+	
 }

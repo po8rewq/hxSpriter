@@ -47,8 +47,9 @@ class DataSpriterCharacter
 			if (pReset) _animation.reset(pFrame);
 			return;
 		}
-			
+		
 		_animation = _animations.get(pName);
+		if(_animation == null) throw('This animation does not exists');
 		_animation.reset(pFrame);
 		
 		onChangeFrame();

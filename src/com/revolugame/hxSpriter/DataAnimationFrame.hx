@@ -1,9 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2012 by Adrien Fischer.
- * This content is released under the MIT License.
- * For questions mail me at adrien[at]revolugame[dot]com
- ******************************************************************************/
-
 package com.revolugame.hxSpriter;
 
 import haxe.xml.Fast;

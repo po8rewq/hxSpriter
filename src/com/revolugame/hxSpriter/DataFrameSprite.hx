@@ -1,12 +1,7 @@
-/*******************************************************************************
- * Copyright (c) 2012 by Adrien Fischer.
- * This content is released under the MIT License.
- * For questions mail me at adrien[at]revolugame[dot]com
- ******************************************************************************/
-
 package com.revolugame.hxSpriter;
 
 import haxe.xml.Fast;
+import nme.display.BitmapInt32;
 
 /**
  * ...
@@ -14,10 +9,16 @@ import haxe.xml.Fast;
  */
 class DataFrameSprite implements haxe.Public
 {
-	static inline var SPRITES_DIR : String = 'sprites/';
-
 	var image : String;
-	var color : Int;
+	
+	#if neko
+	var color : BitmapInt32;
+	#elseif flash
+	var color: UInt;
+	#else
+	var color: Int;
+	#end
+	
 	var opacity : Float;
 	var angle : Float;
 	var xflip : Bool;
@@ -30,9 +31,13 @@ class DataFrameSprite implements haxe.Public
 	public function new (source: Fast) 
 	{
 		image = source.node.image.innerData;
-		image = SPRITES_DIR + StringTools.replace(image, '\\', '/');
+		image = StringTools.replace(image, '\\', '/');
 		
-		color = Std.parseInt( source.node.color.innerData );
+		#if neko
+		color = {rgb: Std.parseInt( source.node.color.innerData ), a: 0xff}; // TODO
+		#else
+		color = Std.parseInt(source.node.color.innerData);
+		#end
 		
 		opacity = Std.parseFloat( source.node.opacity.innerData ) * 0.01;
 		
