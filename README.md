@@ -3,7 +3,8 @@ hxSpriter
 
 Haxe port of the spriterAS3 library by [Abel Toy](http://abeltoy.com/projects/spriterAS3)
 
-Version 0.1 
+Version 0.9
+
 By [Adrien Fischer](http://revolugame.com)
 
 
@@ -26,15 +27,18 @@ Flixel
 ------
 
 ```bash
-var spriter : FlxSpriter = new FlxSpriter('sprites/BetaFormatHero.SCML', 200, 300);
-add(spriter);
+var spriter : FlxSpriter = new FlxSpriter('BetaFormatHero.SCML', 200, 300);
 spriter.playAnimation('idle_healthy');
-
-spriter = new FlxSpriter('sprites/BetaFormatHero.SCML', 400, 300);
 add(spriter);
-spriter.playAnimation("walk");
 ```
 
 HaxePunk
 --------
+
+```bash
+var spriter : HxpSpriterGraphic = new HxpSpriter('BetaFormatHero.SCML', 200, 300);
+spriter.playAnimation('idle_healthy');
+addGraphic( spriter );
+```
+
 

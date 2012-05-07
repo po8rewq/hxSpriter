@@ -21,7 +21,7 @@ class DataSpriterCharacter
 	
 	public function new (pData: String, pOnChangeFrame: Void->Void) 
 	{
-		var source : Fast = new Fast( Xml.parse( nme.Assets.getText(pData) ) );
+		var source : Fast = new Fast( Xml.parse( nme.Assets.getText('sprites/' + pData) ) );
 		var node : Fast = null;
 		
 		source = source.node.spriterdata;

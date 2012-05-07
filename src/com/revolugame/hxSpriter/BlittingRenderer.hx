@@ -101,7 +101,7 @@ class BlittingRenderer
 				matrix.d = scaleY;
 			
 				if (angle != 0) 
-					matrix.rotate(angle * 0.017453292519943295 * -1);
+					matrix.rotate(angle * 0.017453292519943295 * -1); // much faster than Math.PI / 180
 					
 				matrix.tx = x;
 				matrix.ty = y;

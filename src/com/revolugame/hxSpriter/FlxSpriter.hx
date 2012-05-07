@@ -34,7 +34,6 @@ class FlxSpriter extends FlxSprite
 	{
 		super(pX, pY);
 		
-		antialiasing = true;
 		_propertiesChanged = false;
 		
 		_character = new DataSpriterCharacter(pData, onCharacterChangeFrame);
