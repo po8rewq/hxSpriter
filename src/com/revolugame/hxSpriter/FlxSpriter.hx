@@ -11,6 +11,7 @@ import org.flixel.tileSheetManager.TileSheetManager;
 import nme.display.Tilesheet;
 
 import flash.geom.Matrix;
+import flash.geom.Rectangle;
 import flash.display.BitmapData;
 
 /**
@@ -87,16 +88,9 @@ class FlxSpriter extends FlxSprite
 		var i : Int = 0;
 		var l : Int = cameras.length;
 		
-		#if (cpp || neko)
-		var camID:Int;
-		#end
-		
 		while(i < l)
 		{
 			camera = cameras[i++];
-			#if (cpp || neko)
-			camID = camera.ID;
-			#end
 			
 			if(!onScreen(camera))
 				continue;
@@ -107,14 +101,20 @@ class FlxSpriter extends FlxSprite
 			#if flash
 			_point.x += (_point.x > 0) ? 0.0000001 : -0.0000001;
 			_point.y += (_point.y > 0) ? 0.0000001 : -0.0000001;
-			#end
 			
-			#if flash
 			_flashPoint.x = _point.x;
 			_flashPoint.y = _point.y;
 			camera.buffer.copyPixels(_blittingRenderer.buffer, _blittingRenderer.buffer.rect, _flashPoint, null, null, true);
-			#elseif (cpp || neko)
 			
+			#elseif (cpp || neko)
+			for(bufferData in _blittingRenderer.buffer)
+			{
+				var newData : Array<Float> = bufferData.data.copy();
+				newData[0] += Math.floor(_point.x) + origin.x; //_point.x;
+				newData[1] += Math.floor(_point.y) + origin.y; //_point.y;
+
+				camera._canvas.graphics.drawTiles(bufferData.tilesheet, newData, true, bufferData.flags);
+			}
 			#end
 				
 			if(FlxG.visualDebug && !ignoreDrawDebug)
