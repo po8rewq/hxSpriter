@@ -1,31 +1,29 @@
 package com.revolugame.hxSpriter;
 
-import flash.geom.Point;
 import org.flixel.FlxCamera;
 import org.flixel.FlxG;
-import org.flixel.FlxObject;
 import org.flixel.FlxSprite;
 
-import org.flixel.tileSheetManager.TileSheetManager;
-
-import nme.display.Tilesheet;
-
-import flash.geom.Matrix;
-import flash.geom.Rectangle;
+#if flash
 import flash.display.BitmapData;
+import flash.geom.Matrix;
+#elseif (cpp || neko)
+import nme.display.Tilesheet;
+#end
+
+import flash.geom.Point;
+import flash.geom.Rectangle;
 
 /**
  * Flixel implementation of Spriter
- * @author Adrien Fischer
+ * @author Adrien Fischer [http://revolugame.com]
  */
 class FlxSpriter extends FlxSprite
 {
 	var _character : DataSpriterCharacter;
-	
-	var _propertiesChanged : Bool;
-		
 	var _blittingRenderer : BlittingRenderer;
 	
+	var _propertiesChanged : Bool;	
 	var _offsetX : Float;
 	var _offsetY : Float;
 	
@@ -39,7 +37,7 @@ class FlxSpriter extends FlxSprite
 		antialiasing = true;
 		_propertiesChanged = false;
 		
-		_character = new DataSpriterCharacter( pData, onCharacterChangeFrame);
+		_character = new DataSpriterCharacter(pData, onCharacterChangeFrame);
 		_blittingRenderer = new BlittingRenderer();
 	}
 	
@@ -120,6 +118,12 @@ class FlxSpriter extends FlxSprite
 			if(FlxG.visualDebug && !ignoreDrawDebug)
 				drawDebug(camera);
 		}
+	}
+	
+	public function setAntialiasing(value:Bool):Void 
+	{
+		antialiasing = value;
+		_propertiesChanged = true;
 	}
 	
 	/**
