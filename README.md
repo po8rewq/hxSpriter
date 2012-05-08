@@ -23,6 +23,15 @@ In your NME file, all Spriter's ressources must be in the sprites directory.
 <assets path="path/to/the/sprites/directory" rename="sprites" />
 ```
 
+Classic way (flash, cpp)
+-------
+
+```bash
+var spriter : BitmapSpriter = new BitmapSpriter('BetaFormatHero.SCML', 100, 300);
+spriter.playAnimation('idle_healthy');
+addChild(spriter);
+```
+
 Flixel (flash, cpp)
 ------
 
@@ -39,13 +48,4 @@ HaxePunk (flash)
 var spriter : HxpSpriterGraphic = new HxpSpriter('BetaFormatHero.SCML', 100, 300);
 spriter.playAnimation('idle_healthy');
 addGraphic( spriter );
-```
-
-Classic way (flash, cpp)
--------
-
-```bash
-var spriter : BitmapSpriter = new BitmapSpriter('BetaFormatHero.SCML', true, true, 100, 300);
-spriter.playAnimation('idle_healthy');
-addChild(spriter);
 ```
