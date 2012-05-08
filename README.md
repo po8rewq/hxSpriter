@@ -45,7 +45,7 @@ HaxePunk (flash)
 --------
 
 ```bash
-var spriter : HxpSpriterGraphic = new HxpSpriter('BetaFormatHero.SCML', 100, 300);
+var spriter : HxpSpriter = new HxpSpriter('BetaFormatHero.SCML', 100, 300);
 spriter.playAnimation('idle_healthy');
 addGraphic( spriter );
 ```
