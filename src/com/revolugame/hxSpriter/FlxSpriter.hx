@@ -107,8 +107,8 @@ class FlxSpriter extends FlxSprite
 			for(bufferData in _blittingRenderer.buffer)
 			{
 				var newData : Array<Float> = bufferData.data.copy();
-				newData[0] += Math.floor(_point.x) + origin.x; //_point.x;
-				newData[1] += Math.floor(_point.y) + origin.y; //_point.y;
+				newData[0] += Math.floor(_point.x) + origin.x;
+				newData[1] += Math.floor(_point.y) + origin.y;
 
 				camera._canvas.graphics.drawTiles(bufferData.tilesheet, newData, true, bufferData.flags);
 			}

@@ -4,8 +4,10 @@ import nme.display.BitmapData;
 import nme.display.Sprite;
 import nme.display.BitmapInt32;
 
+#if flash
 import nme.geom.ColorTransform;
 import nme.geom.Matrix;
+#end
 import nme.geom.Point;
 
 #if (cpp || neko)
