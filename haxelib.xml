@@ -1,0 +1,10 @@
+<project name="HxSpriter" url="https://github.com/po8rewq/hxSpriter" license="MIT">
+    <user name="afischer"/>
+    <tag v="cross"/>
+    <tag v="nme"/>
+    <tag v="spriter"/>
+    <tag v="game" />
+    <description>Haxe/NME implementation of the Spriter application and file format.</description>
+    <version name="0.9">Initial release, everything is working correctly except the cpp version with haxepunk</version>
+    <depends name="nme"/>
+</project>
