@@ -5,6 +5,6 @@
     <tag v="spriter"/>
     <tag v="game" />
     <description>Haxe/NME implementation of the Spriter application and file format.</description>
-    <version name="0.9">Initial release, everything is working correctly except the cpp version with haxepunk</version>
+    <version name="0.9.1">Quick fix for flixel cpp</version>
     <depends name="nme"/>
 </project>
