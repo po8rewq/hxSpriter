@@ -119,10 +119,17 @@ class FlxSpriter extends FlxSprite
 		}
 	}
 	
+    #if (cpp || neko)
+	public override function setAntialiasing(value:Bool):Bool
+	#else
 	public function setAntialiasing(value:Bool):Void 
+	#end
 	{
 		antialiasing = value;
 		_propertiesChanged = true;
+		#if (cpp || neko)
+		return super.setAntialiasing(value);
+		#end
 	}
 	
 	/**
