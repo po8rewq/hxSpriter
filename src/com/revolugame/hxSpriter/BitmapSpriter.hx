@@ -33,7 +33,13 @@ class BitmapSpriter extends Sprite
 	
 	var _blittingRenderer : BlittingRenderer;
 
-	public function new(pData: String, ?pX: Float = 0, ?pY: Float = 0)
+    /**
+     * 
+     * @param pData : SCML file name
+     * @param pX pY : initial position
+     * @param pAutoUpdate
+     */
+	public function new(pData: String, ?pX: Float = 0, ?pY: Float = 0, ?pAutoUpdate: Bool = false)
 	{
 		super();
 		
@@ -42,7 +48,8 @@ class BitmapSpriter extends Sprite
 		
 		_character = new DataSpriterCharacter(pData, onCharacterChangeFrame);
 		
-		addEventListener(Event.ENTER_FRAME, update);
+		if(pAutoUpdate)
+    		addEventListener(Event.ENTER_FRAME, update);
 			
 		#if flash
 		_bitmap = new Bitmap();
@@ -58,6 +65,9 @@ class BitmapSpriter extends Sprite
 		smooth = true;
 	}
 	
+	/**
+	 * Used to update the animation
+	 */
 	public function update(?pEvt:Event):Void 
 	{
 		var _time : Int = Lib.getTimer();
