@@ -40,17 +40,24 @@ class DataSpriterCharacter
 		onChangeFrame = pOnChangeFrame;
 	}
 
-	public function play(pName:String, ?pReset:Bool = false, ?pFrame:Int = 0):Void
+    /**
+     * Play the animation
+     * @param pName : name of the animation
+     * @param pReset : true to reset the animation
+     * @param pFrame : the first frame of the animaiton
+     * @param pLoop : if the animation has to loop
+     */
+	public function play(pName:String, ?pReset:Bool = false, ?pFrame:Int = 0, ?pLoop:Bool = true):Void
 	{
 		if (_animation != null && _animation.name == pName)
 		{
-			if (pReset) _animation.reset(pFrame);
+			if (pReset) _animation.reset(pFrame, pLoop);
 			return;
 		}
-		
+	
 		_animation = _animations.get(pName);
 		if(_animation == null) throw('This animation does not exists');
-		_animation.reset(pFrame);
+		_animation.reset(pFrame, pLoop);
 		
 		onChangeFrame();
 	}
@@ -73,7 +80,6 @@ class DataSpriterCharacter
 	{
 		if (_animation != null)
 			return _frames.get(_animation.frame.name);
-		
 		return null;
 	}
 

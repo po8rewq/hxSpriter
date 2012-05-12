@@ -27,14 +27,20 @@ class FlxSpriter extends FlxSprite
 	var _offsetX : Float;
 	var _offsetY : Float;
 	
+	/** Can be used to add a default offset to the animation */
+	public var defaultOffsetX : Float;
+	public var defaultOffsetY : Float;
+	
 	/**
 	 * @param pData : XML file name
 	 */
-	public function new(pData: String, ?pX: Float = 0, ?pY: Float = 0)
+	public function new(pData: String, ?pX: Float = 0, ?pY: Float = 0, ?pDefaultOffsetX: Float = 0, ?pDefaultOffsetY: Float = 0)
 	{
 		super(pX, pY);
 		
 		_propertiesChanged = false;
+		defaultOffsetX = pDefaultOffsetX;
+		defaultOffsetY = pDefaultOffsetY;
 		
 		_character = new DataSpriterCharacter(pData, onCharacterChangeFrame);
 		_blittingRenderer = new BlittingRenderer();
@@ -60,8 +66,8 @@ class FlxSpriter extends FlxSprite
 	{
 		var frame : DataFrame = _character.frame;
 		
-		_offsetX = frame.x;
-		_offsetY = frame.y;
+		_offsetX = frame.x + defaultOffsetX;
+		_offsetY = frame.y + defaultOffsetY;
 		
 		_blittingRenderer.updateFrame(frame, antialiasing);
 	}
@@ -134,13 +140,14 @@ class FlxSpriter extends FlxSprite
 	
 	/**
 	 * Plays an animation.
-	 * @param	name		Name of the animation to play, as specified in the Spriter File.
-	 * @param	reset		If the animation should force-restart if it is already playing.
-	 * @param	frame		Frame of the animation to start from, if restarted.
+	 * @param	name	Name of the animation to play, as specified in the Spriter File.
+	 * @param	reset	If the animation should force-restart if it is already playing.
+	 * @param	frame	Frame of the animation to start from, if restarted.
+	 * @param   pLoop   If the animation has to loop
 	 */
-	public function playAnimation(pName:String, ?pReset:Bool = false, ?pFrame:Int = 0):Void
+	public function playAnimation(pName:String, ?pReset:Bool = false, ?pFrame:Int = 0, ?pLoop:Bool = true):Void
 	{
-		_character.play(pName, pReset, pFrame);
+		_character.play(pName, pReset, pFrame, pLoop);
 	}
 	
 }

@@ -1,15 +1,14 @@
 package com.revolugame.hxSpriter;
 
 #if flash
-import flash.display.Bitmap;
-import flash.display.BitmapData;
+import nme.display.Bitmap;
+import nme.display.BitmapData;
 import nme.geom.ColorTransform;
 #elseif (cpp || neko)
 import nme.display.Tilesheet;
+import nme.display.Sprite;
 #end
 
-import flash.display.Sprite;
-import flash.events.Event;
 import nme.Lib;
 
 
