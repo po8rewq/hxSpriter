@@ -10,7 +10,7 @@ import com.haxepunk.HXP;
  * HaxePunk implementation of Spriter
  * @author Adrien Fischer [http://revolugame.com]
  */
-class HxpSpriterGraphic extends Graphic
+class HxpSpriter extends Graphic
 {
 	var _character : DataSpriterCharacter;
 	var _blittingRenderer : BlittingRenderer;
